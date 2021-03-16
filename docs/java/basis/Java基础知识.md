@@ -19,7 +19,7 @@
     - [1.2.3. 标识符和关键字的区别是什么？](#123-标识符和关键字的区别是什么)
     - [1.2.4. Java 中有哪些常见的关键字？](#124-java-中有哪些常见的关键字)
     - [1.2.5. 自增自减运算符](#125-自增自减运算符)
-    - [1.2.6. continue、break、和 return 的区别是什么？](#126-continue-break-和-return-的区别是什么)
+    - [1.2.6. continue、break、和 return 的区别是什么？](#126-continuebreak和-return-的区别是什么)
     - [1.2.7. Java 泛型了解么？什么是类型擦除？介绍一下常用的通配符？](#127-java-泛型了解么什么是类型擦除介绍一下常用的通配符)
     - [1.2.8. ==和 equals 的区别](#128-和-equals-的区别)
     - [1.2.9. hashCode()与 equals()](#129-hashcode与-equals)
@@ -54,7 +54,7 @@
   - [2.4. 其它重要知识点](#24-其它重要知识点)
     - [2.4.1. String StringBuffer 和 StringBuilder 的区别是什么? String 为什么是不可变的?](#241-string-stringbuffer-和-stringbuilder-的区别是什么-string-为什么是不可变的)
     - [2.4.2. Object 类的常见方法总结](#242-object-类的常见方法总结)
-    - [2.4.3. == 与 equals(重要)](#243-与-equals重要)
+    - [2.4.3. == 与 equals(重要)](#243--与-equals重要)
     - [2.4.4. hashCode 与 equals (重要)](#244-hashcode-与-equals-重要)
       - [2.4.4.1. hashCode（）介绍](#2441-hashcode介绍)
       - [2.4.4.2. 为什么要有 hashCode](#2442-为什么要有-hashcode)
@@ -72,7 +72,7 @@
     - [3.2.3. try-catch-finally](#323-try-catch-finally)
     - [3.2.4. 使用 `try-with-resources` 来代替`try-catch-finally`](#324-使用-try-with-resources-来代替try-catch-finally)
   - [3.3. 多线程](#33-多线程)
-    - [3.3.1. 简述线程、程序、进程的基本概念。以及他们之间关系是什么?](#331-简述线程-程序-进程的基本概念以及他们之间关系是什么)
+    - [3.3.1. 简述线程、程序、进程的基本概念。以及他们之间关系是什么?](#331-简述线程程序进程的基本概念以及他们之间关系是什么)
     - [3.3.2. 线程有哪些基本状态?](#332-线程有哪些基本状态)
   - [3.4. 文件与 I\O 流](#34-文件与-io-流)
     - [3.4.1. Java 中 IO 流分为几种?](#341-java-中-io-流分为几种)
@@ -82,7 +82,7 @@
 
 <!-- /code_chunk_output -->
 
-
+hello world
 
 ## 1. Java 基本功
 
@@ -98,8 +98,6 @@
 6. 支持多线程（ C++ 语言没有内置的多线程机制，因此必须调用操作系统的多线程功能来进行多线程程序设计，而 Java 语言却提供了多线程支持）；
 7. 支持网络编程并且很方便（ Java 语言诞生本身就是为简化网络编程设计的，因此 Java 语言不仅支持网络编程而且很方便）；
 8. 编译与解释并存；
-
-> 修正（参见： [issue#544](https://github.com/Snailclimb/JavaGuide/issues/544)）：C++11 开始（2011 年的时候）,C++就引入了多线程库，在 windows、linux、macos 都可以使用`std::thread`和`std::async`来创建线程。参考链接：http://www.cplusplus.com/reference/thread/thread/?kw=thread
 
 #### 1.1.2. 关于 JVM JDK 和 JRE 最详细通俗的解答
 
@@ -180,7 +178,7 @@ Java 语言既具有编译型语言的特征，也具有解释型语言的特征
 1. 形式上: 字符常量是单引号引起的一个字符; 字符串常量是双引号引起的 0 个或若干个字符
 2. 含义上: 字符常量相当于一个整型值( ASCII 值),可以参加表达式运算; 字符串常量代表一个地址值(该字符串在内存中存放位置)
 3. 占内存大小 字符常量只占 2 个字节; 字符串常量占若干个字节 (**注意： char 在 Java 中占两个字节**),
-   
+
    > 字符封装类 `Character` 有一个成员常量 `Character.SIZE` 值为 16,单位是`bits`,该值除以 8(`1byte=8bits`)后就可以得到 2 个字节
 
 > java 编程思想第四版：2.2.2 节
@@ -536,15 +534,15 @@ private static class CharacterCache {
 **两种浮点数类型的包装类 Float,Double 并没有实现常量池技术。**
 
 ```java
-		Integer i1 = 33;
-		Integer i2 = 33;
-		System.out.println(i1 == i2);// 输出 true
-		Integer i11 = 333;
-		Integer i22 = 333;
-		System.out.println(i11 == i22);// 输出 false
-		Double i3 = 1.2;
-		Double i4 = 1.2;
-		System.out.println(i3 == i4);// 输出 false
+  Integer i1 = 33;
+  Integer i2 = 33;
+  System.out.println(i1 == i2);// 输出 true
+  Integer i11 = 333;
+  Integer i22 = 333;
+  System.out.println(i11 == i22);// 输出 false
+  Double i3 = 1.2;
+  Double i4 = 1.2;
+  System.out.println(i3 == i4);// 输出 false
 ```
 
 **Integer 缓存源代码：**
@@ -662,17 +660,17 @@ num2 = 20
 > **example 2**
 
 ```java
-	public static void main(String[] args) {
-		int[] arr = { 1, 2, 3, 4, 5 };
-		System.out.println(arr[0]);
-		change(arr);
-		System.out.println(arr[0]);
-	}
+ public static void main(String[] args) {
+  int[] arr = { 1, 2, 3, 4, 5 };
+  System.out.println(arr[0]);
+  change(arr);
+  System.out.println(arr[0]);
+ }
 
-	public static void change(int[] array) {
-		// 将数组的第一个元素变为0
-		array[0] = 0;
-	}
+ public static void change(int[] array) {
+  // 将数组的第一个元素变为0
+  array[0] = 0;
+ }
 ```
 
 **结果：**
@@ -697,22 +695,22 @@ array 被初始化 arr 的拷贝也就是一个对象的引用，也就是说 ar
 ```java
 public class Test {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		Student s1 = new Student("小张");
-		Student s2 = new Student("小李");
-		Test.swap(s1, s2);
-		System.out.println("s1:" + s1.getName());
-		System.out.println("s2:" + s2.getName());
-	}
+ public static void main(String[] args) {
+  // TODO Auto-generated method stub
+  Student s1 = new Student("小张");
+  Student s2 = new Student("小李");
+  Test.swap(s1, s2);
+  System.out.println("s1:" + s1.getName());
+  System.out.println("s2:" + s2.getName());
+ }
 
-	public static void swap(Student x, Student y) {
-		Student temp = x;
-		x = y;
-		y = temp;
-		System.out.println("x:" + x.getName());
-		System.out.println("y:" + y.getName());
-	}
+ public static void swap(Student x, Student y) {
+  Student temp = x;
+  x = y;
+  y = temp;
+  System.out.println("x:" + x.getName());
+  System.out.println("y:" + y.getName());
+ }
 }
 ```
 
@@ -1242,7 +1240,7 @@ Java 代码在编译过程中 ，我们即使不处理不受检查异常也可�
 
 **在以下 3 种特殊情况下，`finally` 块不会被执行：**
 
-2. 在 `try` 或 `finally `块中用了 `System.exit(int)`退出程序。但是，如果 `System.exit(int)` 在异常语句之后，`finally` 还是会被执行
+2. 在 `try` 或 `finally`块中用了 `System.exit(int)`退出程序。但是，如果 `System.exit(int)` 在异常语句之后，`finally` 还是会被执行
 3. 程序所在的线程死亡。
 4. 关闭 CPU。
 
@@ -1389,7 +1387,6 @@ Java Io 流共涉及 40 多个类，这些类看上去很杂乱，但实际上�
 
 ## 4. 参考
 
-- https://stackoverflow.com/questions/1906445/what-is-the-difference-between-jdk-and-jre
-- https://www.educba.com/oracle-vs-openjdk/
-- https://stackoverflow.com/questions/22358071/differences-between-oracle-jdk-and-openjdk?answertab=active#tab-top
-
+- <https://stackoverflow.com/questions/1906445/what-is-the-difference-between-jdk-and-jre>
+- <https://www.educba.com/oracle-vs-openjdk/>
+- <https://stackoverflow.com/questions/22358071/differences-between-oracle-jdk-and-openjdk?answertab=active#tab-top>
