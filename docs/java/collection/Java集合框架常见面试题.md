@@ -15,7 +15,6 @@
     - [1.2.2. Arraylist 与 LinkedList 区别?](#122-arraylist-与-linkedlist-区别)
       - [1.2.2.1. 补充内容:双向链表和双向循环链表](#1221-补充内容双向链表和双向循环链表)
       - [1.2.2.2. 补充内容:RandomAccess 接口](#1222-补充内容randomaccess-接口)
-    - [1.2.3. 说一说 ArrayList 的扩容机制吧](#123-说一说-arraylist-的扩容机制吧)
   - [1.3. Collection 子接口之 Set](#13-collection-子接口之-set)
     - [1.3.1. comparable 和 Comparator 的区别](#131-comparable-和-comparator-的区别)
       - [1.3.1.1. Comparator 定制排序](#1311-comparator-定制排序)
@@ -23,7 +22,7 @@
     - [1.3.2. 无序性和不可重复性的含义是什么](#132-无序性和不可重复性的含义是什么)
     - [1.3.3. 比较 HashSet、LinkedHashSet 和 TreeSet 三者的异同](#133-比较-hashsetlinkedhashset-和-treeset-三者的异同)
   - [1.4. Map 接口](#14-map-接口)
-    - [1.4.1. HashMap 和 Hashtable 的区别](#141-hashmap-和-hashtable-的区别)
+    - [1.4.1. HashMap 和 HashTable 的区别](#141-hashmap-和-hashtable-的区别)
     - [1.4.2. HashMap 和 HashSet 区别](#142-hashmap-和-hashset-区别)
     - [1.4.3. HashMap 和 TreeMap 区别](#143-hashmap-和-treemap-区别)
     - [1.4.4. HashSet 如何检查重复](#144-hashset-如何检查重复)
@@ -57,52 +56,50 @@
 
 ![](https://guide-blog-images.oss-cn-shenzhen.aliyuncs.com/source-code/dubbo/java-collection-hierarchy.png)
 
-<p style="text-align:center;font-size:13px;color:gray">https://www.javatpoint.com/collections-in-java</p>
+![20210413211847](https://raw.githubusercontent.com/kuro-tsuchi/images/master/20210413211847.png)
+
+
+![20210413212236](https://raw.githubusercontent.com/kuro-tsuchi/images/master/20210413212236.png)
+
 
 ### 1.1.2. 说说 List,Set,Map 三者的区别？
 
-- List：
-    存储的元素是有序的、可重复的。
-- Set: 
-    存储的元素是无序的、不可重复的。
-- Map: 
-    使用键值对（key-value）存储 ,Key 是无序的、不可重复的，value 是无序的、可重复的，每个键最多映射到一个值。
+1. List：存储的元素是有序的、可重复的。
+1. Set: 存储的元素是无序的、不可重复的。
+1. Map: 使用键值对（key-value）存储 ,Key 是无序的、不可重复的，value 是无序的、可重复的，每个键最多映射到一个值。
 
 ### 1.1.3. 集合框架底层数据结构总结
-
-先来看一下 `Collection` 接口下面的集合。
-
 #### 1.1.3.1. List
 
 - `Arraylist`： `Object[]`数组
-- `Vector`：`Object[]`数组
 - `LinkedList`： 双向链表(JDK1.6 之前为循环链表，JDK1.7 取消了循环)
+- `Vector`：`Object[]`数组
 
 #### 1.1.3.2. Set
 
 - `HashSet`（无序，唯一）: 基于 `HashMap` 实现的，底层采用 `HashMap` 来保存元素
-- `LinkedHashSet`：`LinkedHashSet` 是 `HashSet` 的子类，并且其内部是通过 `LinkedHashMap` 来实现的。有点类似于我们之前说的 `LinkedHashMap` 其内部是基于 `HashMap` 实现一样，不过还是有一点点区别的
+- `LinkedHashSet`：`LinkedHashSet` 是 `HashSet` 的子类，并且其内部是通过 `LinkedHashMap` 来实现的。有点类似于之前说的 `LinkedHashMap` 其内部是基于 `HashMap` 实现一样，不过还是有一点点区别的
 - `TreeSet`（有序，唯一）： 红黑树(自平衡的排序二叉树)
 
 再来看看 `Map` 接口下面的集合。
 
 #### 1.1.3.3. Map
 
-- `HashMap`： JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间
-- `LinkedHashMap`： `LinkedHashMap` 继承自 `HashMap`，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，`LinkedHashMap` 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。详细可以查看：[《LinkedHashMap 源码详细分析（JDK1.8）》](https://www.imooc.com/article/22931)
-- `Hashtable`： 数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的
-- `TreeMap`： 红黑树（自平衡的排序二叉树）
+1. `HashMap`： JDK1.8 之前 `HashMap` 由数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的（“拉链法”解决冲突）。JDK1.8 以后在解决哈希冲突时有了较大的变化，当链表长度大于阈值（默认为 8）（将链表转换成红黑树前会判断，如果当前数组的长度小于 64，那么会选择先进行数组扩容，而不是转换为红黑树）时，将链表转化为红黑树，以减少搜索时间
+1. `LinkedHashMap`： `LinkedHashMap` 继承自 `HashMap`，所以它的底层仍然是基于拉链式散列结构即由数组和链表或红黑树组成。另外，`LinkedHashMap` 在上面结构的基础上，增加了一条双向链表，使得上面的结构可以保持键值对的插入顺序。同时通过对链表进行相应的操作，实现了访问顺序相关逻辑。
+1. `Hashtable`： 数组+链表组成的，数组是 `HashMap` 的主体，链表则是主要为了解决哈希冲突而存在的
+1. `TreeMap`： 红黑树（自平衡的排序二叉树）
 
 ### 1.1.4. 如何选用集合?
 
-主要根据集合的特点来选用，比如我们需要根据键值获取到元素值时就选用 `Map` 接口下的集合，需要排序时选择 `TreeMap`,不需要排序时就选择 `HashMap`,需要保证线程安全就选用 `ConcurrentHashMap`。
+当需要根据键值获取到元素值时就选用 `Map` 接口下的集合，需要排序时选择 `TreeMap`,不需要排序时就选择 `HashMap`,需要保证线程安全就选用 `ConcurrentHashMap`。
 
-当我们只需要存放元素值时，就选择实现`Collection` 接口的集合，需要保证元素唯一时选择实现 `Set` 接口的集合比如 `TreeSet` 或 `HashSet`，不需要就选择实现 `List` 接口的比如 `ArrayList` 或 `LinkedList`，然后再根据实现这些接口的集合的特点来选用。
+当只需要存放元素值时，就选择实现`Collection` 接口的集合，需要保证元素唯一时选择实现 `Set` 接口的集合比如 `TreeSet` 或 `HashSet`，不需要就选择实现 `List` 接口的比如 `ArrayList` 或 `LinkedList`，然后再根据实现这些接口的集合的特点来选用。
 
 ### 1.1.5. 为什么要使用集合？
 
-当我们需要保存一组类型相同的数据的时候，我们应该是用一个容器来保存，这个容器就是数组，但是，使用数组存储对象具有一定的弊端，
-因为我们在实际开发中，存储的数据的类型是多种多样的，于是，就出现了“集合”，集合同样也是用来存储多个数据的。
+当需要保存一组类型相同的数据的时候，应该是用一个容器来保存，这个容器就是数组，但是，使用数组存储对象具有一定的弊端，
+因为在实际开发中，存储的数据的类型是多种多样的，于是，就出现了“集合”，集合同样也是用来存储多个数据的。
 
 数组的缺点是一旦声明之后，长度就不可变了；同时，声明数组时的数据类型也决定了该数组存储的数据的类型；而且，数组存储的数据是有序的、可重复的，特点单一。
 但是集合提高了数据存储的灵活性，Java 集合不仅可以用来存储不同类型不同数量的对象，还可以保存具有映射关系的数据。
@@ -141,7 +138,7 @@ public interface RandomAccess {
 }
 ```
 
-查看源码我们发现实际上 `RandomAccess` 接口中什么都没有定义。所以，在我看来 `RandomAccess` 接口不过是一个标识罢了。标识什么？ 标识实现这个接口的类具有随机访问功能。
+查看源码发现实际上 `RandomAccess` 接口中什么都没有定义。所以，在我看来 `RandomAccess` 接口不过是一个标识罢了。标识什么？ 标识实现这个接口的类具有随机访问功能。
 
 在 `binarySearch（)` 方法中，它要判断传入的 list 是否 `RamdomAccess` 的实例，如果是，调用`indexedBinarySearch()`方法，如果不是，那么调用`iteratorBinarySearch()`方法
 
@@ -157,10 +154,6 @@ public interface RandomAccess {
 
 `ArrayList` 实现了 `RandomAccess` 接口， 而 `LinkedList` 没有实现。为什么呢？我觉得还是和底层数据结构有关！`ArrayList` 底层是数组，而 `LinkedList` 底层是链表。数组天然支持随机访问，时间复杂度为 O(1)，所以称为快速随机访问。链表需要遍历到特定位置才能访问特定位置的元素，时间复杂度为 O(n)，所以不支持快速随机访问。，`ArrayList` 实现了 `RandomAccess` 接口，就表明了他具有快速随机访问功能。 `RandomAccess` 接口只是标识，并不是说 `ArrayList` 实现 `RandomAccess` 接口才具有快速随机访问功能的！
 
-### 1.2.3. 说一说 ArrayList 的扩容机制吧
-
-详见笔主的这篇文章:[通过源码一步一步分析 ArrayList 扩容机制](https://snailclimb.gitee.io/javaguide/#/docs/java/collection/ArrayList%E6%BA%90%E7%A0%81+%E6%89%A9%E5%AE%B9%E6%9C%BA%E5%88%B6%E5%88%86%E6%9E%90)
-
 ## 1.3. Collection 子接口之 Set
 
 ### 1.3.1. comparable 和 Comparator 的区别
@@ -168,7 +161,7 @@ public interface RandomAccess {
 - `comparable` 接口实际上是出自`java.lang`包 它有一个 `compareTo(Object obj)`方法用来排序
 - `comparator`接口实际上是出自 java.util 包它有一个`compare(Object obj1, Object obj2)`方法用来排序
 
-一般我们需要对一个集合使用自定义排序时，我们就要重写`compareTo()`方法或`compare()`方法，当我们需要对某一个集合实现两种排序方式，比如一个 song 对象中的歌名和歌手名分别采用一种排序方法的话，我们可以重写`compareTo()`方法和使用自制的`Comparator`方法或者以两个 Comparator 来实现歌名排序和歌星名排序，第二种代表我们只能使用两个参数版的 `Collections.sort()`.
+一般需要对一个集合使用自定义排序时，就要重写`compareTo()`方法或`compare()`方法，当需要对某一个集合实现两种排序方式，比如一个 song 对象中的歌名和歌手名分别采用一种排序方法的话，可以重写`compareTo()`方法和使用自制的`Comparator`方法或者以两个 Comparator 来实现歌名排序和歌星名排序，第二种代表只能使用两个参数版的 `Collections.sort()`.
 
 #### 1.3.1.1. Comparator 定制排序
 
@@ -294,21 +287,21 @@ Output：
 
 ### 1.3.2. 无序性和不可重复性的含义是什么
 
-1、什么是无序性？无序性不等于随机性 ，无序性是指存储的数据在底层数组中并非按照数组索引的顺序添加 ，而是根据数据的哈希值决定的。
+1. 什么是无序性？无序性不等于随机性 ，无序性是指存储的数据在底层数组中并非按照数组索引的顺序添加 ，而是根据数据的哈希值决定的。
 
-2、什么是不可重复性？不可重复性是指添加的元素按照 equals()判断时 ，返回 false，需要同时重写 equals()方法和 HashCode()方法。
+1. 什么是不可重复性？不可重复性是指添加的元素按照 equals()判断时 ，返回 false，需要同时重写 equals()方法和 HashCode()方法。
 
 ### 1.3.3. 比较 HashSet、LinkedHashSet 和 TreeSet 三者的异同
 
-`HashSet` 是 `Set` 接口的主要实现类 ，`HashSet` 的底层是 `HashMap`，线程不安全的，可以存储 null 值；
+1. `HashSet` 是 `Set` 接口的主要实现类 ，`HashSet` 的底层是 `HashMap`，线程不安全的，可以存储 null 值；
 
-`LinkedHashSet` 是 `HashSet` 的子类，能够按照添加的顺序遍历；
+1. `LinkedHashSet` 是 `HashSet` 的子类，能够按照添加的顺序遍历；
 
-`TreeSet` 底层使用红黑树，能够按照添加元素的顺序进行遍历，排序的方式有自然排序和定制排序。
+1. `TreeSet` 底层使用红黑树，能够按照添加元素的顺序进行遍历，排序的方式有自然排序和定制排序。
 
 ## 1.4. Map 接口
 
-### 1.4.1. HashMap 和 Hashtable 的区别
+### 1.4.1. HashMap 和 HashTable 的区别
 
 1. **线程是否安全：** `HashMap` 是非线程安全的，`HashTable` 是线程安全的,因为 `HashTable` 内部的方法基本都经过`synchronized` 修饰。（如果你要保证线程安全的话就使用 `ConcurrentHashMap` 吧！）；
 2. **效率：** 因为线程安全的问题，`HashMap` 要比 `HashTable` 效率高一点。另外，`HashTable` 基本被淘汰，不要在代码中使用它；
@@ -357,11 +350,11 @@ Output：
 
 如果你看过 `HashSet` 源码的话就应该知道：`HashSet` 底层就是基于 `HashMap` 实现的。（`HashSet` 的源码非常非常少，因为除了 `clone()`、`writeObject()`、`readObject()`是 `HashSet` 自己不得不实现之外，其他方法都是直接调用 `HashMap` 中的方法。
 
-|               `HashMap`                |                          `HashSet`                           |
-| :------------------------------------: | :----------------------------------------------------------: |
-|           实现了 `Map` 接口            |                       实现 `Set` 接口                        |
-|               存储键值对               |                          仅存储对象                          |
-|     调用 `put()`向 map 中添加元素      |             调用 `add()`方法向 `Set` 中添加元素              |
+| `HashMap`                              | `HashSet`                                                                                                                 |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| 实现了 `Map` 接口                      | 实现 `Set` 接口                                                                                                           |
+| 存储键值对                             | 仅存储对象                                                                                                                |
+| 调用 `put()`向 map 中添加元素          | 调用 `add()`方法向 `Set` 中添加元素                                                                                       |
 | `HashMap` 使用键（Key）计算 `hashcode` | `HashSet` 使用成员对象来计算 `hashcode` 值，对于两个对象来说 `hashcode` 可能相同，所以` equals()`方法用来判断对象的相等性 |
 
 ### 1.4.3. HashMap 和 TreeMap 区别
@@ -372,7 +365,7 @@ Output：
 
 实现 `NavigableMap` 接口让 `TreeMap` 有了对集合内元素的搜索的能力。
 
-实现`SortMap`接口让 `TreeMap` 有了对集合中的元素根据键排序的能力。默认是按 key 的升序排序，不过我们也可以指定排序的比较器。示例代码如下：
+实现`SortMap`接口让 `TreeMap` 有了对集合中的元素根据键排序的能力。默认是按 key 的升序排序，不过也可以指定排序的比较器。示例代码如下：
 
 ```java
 /**
@@ -421,7 +414,7 @@ person3
 
 可以看出，`TreeMap` 中的元素已经是按照 `Person` 的 age 字段的升序来排列了。
 
-上面，我们是通过传入匿名内部类的方式实现的，你可以将代码替换成 Lambda 表达式实现的方式：
+上面，是通过传入匿名内部类的方式实现的，你可以将代码替换成 Lambda 表达式实现的方式：
 
 ```java
 TreeMap<Person, String> treeMap = new TreeMap<>((person1, person2) -> {
@@ -505,11 +498,11 @@ static int hash(int h) {
 
 ### 1.4.6. HashMap 的长度为什么是 2 的幂次方
 
-为了能让 HashMap 存取高效，尽量较少碰撞，也就是要尽量把数据分配均匀。我们上面也讲到了过了，Hash 值的范围值-2147483648 到 2147483647，前后加起来大概 40 亿的映射空间，只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个 40 亿长度的数组，内存是放不下的。所以这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来要存放的位置也就是对应的数组下标。这个数组下标的计算方法是“ `(n - 1) & hash`”。（n 代表数组长度）。这也就解释了 HashMap 的长度为什么是 2 的幂次方。
+为了能让 HashMap 存取高效，尽量较少碰撞，也就是要尽量把数据分配均匀。上面也讲到了过了，Hash 值的范围值-2147483648 到 2147483647，前后加起来大概 40 亿的映射空间，只要哈希函数映射得比较均匀松散，一般应用是很难出现碰撞的。但问题是一个 40 亿长度的数组，内存是放不下的。所以这个散列值是不能直接拿来用的。用之前还要先做对数组的长度取模运算，得到的余数才能用来要存放的位置也就是对应的数组下标。这个数组下标的计算方法是“ `(n - 1) & hash`”。（n 代表数组长度）。这也就解释了 HashMap 的长度为什么是 2 的幂次方。
 
 **这个算法应该如何设计呢？**
 
-我们首先可能会想到采用%取余的操作来实现。但是，重点来了：**“取余(%)操作中如果除数是 2 的幂次则等价于与其除数减一的与(&)操作（也就是说 hash%length==hash&(length-1)的前提是 length 是 2 的 n 次方；）。”** 并且 **采用二进制位操作 &，相对于%能够提高运算效率，这就解释了 HashMap 的长度为什么是 2 的幂次方。**
+首先可能会想到采用%取余的操作来实现。但是，重点来了：**“取余(%)操作中如果除数是 2 的幂次则等价于与其除数减一的与(&)操作（也就是说 hash%length==hash&(length-1)的前提是 length 是 2 的 n 次方；）。”** 并且 **采用二进制位操作 &，相对于%能够提高运算效率，这就解释了 HashMap 的长度为什么是 2 的幂次方。**
 
 ### 1.4.7. HashMap 多线程操作导致死循环问题
 
@@ -606,7 +599,7 @@ boolean replaceAll(List list, Object oldVal, Object newVal), 用新元素替换�
 
 `Collections` 提供了多个`synchronizedXxx()`方法·，该方法可以将指定集合包装成线程同步的集合，从而解决多线程并发访问集合时的线程安全问题。
 
-我们知道 `HashSet`，`TreeSet`，`ArrayList`,`LinkedList`,`HashMap`,`TreeMap` 都是线程不安全的。`Collections` 提供了多个静态方法可以把他们包装成线程同步的集合。
+知道 `HashSet`，`TreeSet`，`ArrayList`,`LinkedList`,`HashMap`,`TreeMap` 都是线程不安全的。`Collections` 提供了多个静态方法可以把他们包装成线程同步的集合。
 
 **最好不要用下面这些方法，效率非常低，需要线程安全的集合类型时请考虑使用 JUC 包下的并发集合。**
 
