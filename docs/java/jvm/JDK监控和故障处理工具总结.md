@@ -1,26 +1,26 @@
 <!-- TOC -->
 
-- [JDK 监控和故障处理工具总结](#jdk-监控和故障处理工具总结)
-    - [JDK 命令行工具](#jdk-命令行工具)
-        - [`jps`:查看所有 Java 进程](#jps查看所有-java-进程)
-        - [`jstat`: 监视虚拟机各种运行状态信息](#jstat-监视虚拟机各种运行状态信息)
-        - [` jinfo`: 实时地查看和调整虚拟机各项参数](#-jinfo-实时地查看和调整虚拟机各项参数)
-        - [`jmap`:生成堆转储快照](#jmap生成堆转储快照)
-        - [**`jhat`**: 分析 heapdump 文件](#jhat-分析-heapdump-文件)
-        - [**`jstack`** :生成虚拟机当前时刻的线程快照](#jstack-生成虚拟机当前时刻的线程快照)
-    - [JDK 可视化分析工具](#jdk-可视化分析工具)
-        - [JConsole:Java 监视与管理控制台](#jconsolejava-监视与管理控制台)
-            - [连接 Jconsole](#连接-jconsole)
-            - [查看 Java 程序概况](#查看-java-程序概况)
-            - [内存监控](#内存监控)
-            - [线程监控](#线程监控)
-        - [Visual VM:多合一故障处理工具](#visual-vm多合一故障处理工具)
+- [1. JDK 监控和故障处理工具总结](#1-jdk-监控和故障处理工具总结)
+  - [1.1. JDK 命令行工具](#11-jdk-命令行工具)
+    - [1.1.1. jps:查看所有 Java 进程](#111-jps查看所有-java-进程)
+    - [1.1.2. jstat: 监视虚拟机各种运行状态信息](#112-jstat-监视虚拟机各种运行状态信息)
+    - [1.1.3. jinfo: 实时地查看和调整虚拟机各项参数](#113-jinfo-实时地查看和调整虚拟机各项参数)
+    - [1.1.4. jmap: 生成堆转储快照](#114-jmap-生成堆转储快照)
+    - [1.1.5. jhat: 分析 heapdump 文件](#115-jhat-分析-heapdump-文件)
+    - [1.1.6. **`jstack`** :生成虚拟机当前时刻的线程快照](#116-jstack-生成虚拟机当前时刻的线程快照)
+  - [1.2. JDK 可视化分析工具](#12-jdk-可视化分析工具)
+    - [1.2.1. JConsole:Java 监视与管理控制台](#121-jconsolejava-监视与管理控制台)
+      - [1.2.1.1. 连接 Jconsole](#1211-连接-jconsole)
+      - [1.2.1.2. 查看 Java 程序概况](#1212-查看-java-程序概况)
+      - [1.2.1.3. 内存监控](#1213-内存监控)
+      - [1.2.1.4. 线程监控](#1214-线程监控)
+    - [1.2.2. Visual VM:多合一故障处理工具](#122-visual-vm多合一故障处理工具)
 
 <!-- /TOC -->
 
-# JDK 监控和故障处理工具总结
+# 1. JDK 监控和故障处理工具总结
 
-## JDK 命令行工具
+## 1.1. JDK 命令行工具
 
 这些命令在 JDK 安装目录下的 bin 目录下：
 
@@ -31,7 +31,7 @@
 - **`jhat`** (JVM Heap Dump Browser ) : 用于分析 heapdump 文件，它会建立一个 HTTP/HTML 服务器，让用户可以在浏览器上查看分析结果;
 - **`jstack`** (Stack Trace for Java):生成虚拟机当前时刻的线程快照，线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合。
 
-### `jps`:查看所有 Java 进程
+### 1.1.1. jps:查看所有 Java 进程
 
 `jps`(JVM Process Status) 命令类似 UNIX 的 `ps` 命令。
 
@@ -61,7 +61,7 @@ C:\Users\SnailClimb>jps -l
 
 `jps -m`：输出传递给 Java 进程 main() 函数的参数。
 
-### `jstat`: 监视虚拟机各种运行状态信息
+### 1.1.2. jstat: 监视虚拟机各种运行状态信息
 
 jstat（JVM Statistics Monitoring Tool） 使用于监视虚拟机各种运行状态信息的命令行工具。 它可以显示本地或者远程（需要远程主机提供 RMI 支持）虚拟机进程中的类信息、内存、垃圾收集、JIT 编译等运行数据，在没有 GUI，只提供了纯文本控制台环境的服务器上，它将是运行期间定位虚拟机性能问题的首选工具。
 
@@ -88,7 +88,7 @@ jstat -<option> [-t] [-h<lines>] <vmid> [<interval> [<count>]]
 
 另外，加上 `-t`参数可以在输出信息上加一个 Timestamp 列，显示程序的运行时间。
 
-### ` jinfo`: 实时地查看和调整虚拟机各项参数
+### 1.1.3. jinfo: 实时地查看和调整虚拟机各项参数
 
 `jinfo vmid` :输出当前 jvm 进程的全部参数和系统属性 (第一部分是系统的属性，第二部分是 JVM 的参数)。
 
@@ -115,7 +115,7 @@ C:\Users\SnailClimb>jinfo  -flag  PrintGC 17340
 -XX:+PrintGC
 ```
 
-### `jmap`:生成堆转储快照
+### 1.1.4. jmap: 生成堆转储快照
 
 `jmap`（Memory Map for Java）命令用于生成堆转储快照。 如果不使用 `jmap` 命令，要想获取 Java 堆转储，可以使用 `“-XX:+HeapDumpOnOutOfMemoryError”` 参数，可以让虚拟机在 OOM 异常出现之后自动生成 dump 文件，Linux 命令下可以通过 `kill -3` 发送进程退出信号也能拿到 dump 文件。
 
@@ -129,7 +129,7 @@ Dumping heap to C:\Users\SnailClimb\Desktop\heap.hprof ...
 Heap dump file created
 ```
 
-### **`jhat`**: 分析 heapdump 文件
+### 1.1.5. jhat: 分析 heapdump 文件
 
  **`jhat`** 用于分析 heapdump 文件，它会建立一个 HTTP/HTML 服务器，让用户可以在浏览器上查看分析结果。
 
@@ -148,7 +148,7 @@ Server is ready.
 
 访问 <http://localhost:7000/>
 
-### **`jstack`** :生成虚拟机当前时刻的线程快照
+### 1.1.6. **`jstack`** :生成虚拟机当前时刻的线程快照
 
 `jstack`（Stack Trace for Java）命令用于生成虚拟机当前时刻的线程快照。线程快照就是当前虚拟机内每一条线程正在执行的方法堆栈的集合.
 
@@ -254,13 +254,13 @@ Found 1 deadlock.
 
 可以看到 `jstack` 命令已经帮我们找到发生死锁的线程的具体信息。
 
-## JDK 可视化分析工具
+## 1.2. JDK 可视化分析工具
 
-### JConsole:Java 监视与管理控制台
+### 1.2.1. JConsole:Java 监视与管理控制台
 
 JConsole 是基于 JMX 的可视化监视、管理工具。可以很方便的监视本地及远程服务器的 java 进程的内存使用情况。你可以在控制台输出`console`命令启动或者在 JDK 目录下的 bin 目录找到`jconsole.exe`然后双击启动。
 
-#### 连接 Jconsole
+#### 1.2.1.1. 连接 Jconsole
 
 ![连接 Jconsole](./pictures/jdk监控和故障处理工具总结/1JConsole连接.png)
 
@@ -279,11 +279,11 @@ JConsole 是基于 JMX 的可视化监视、管理工具。可以很方便的监
 外网访问 ip 地址:60001 
 ```
 
-#### 查看 Java 程序概况
+#### 1.2.1.2. 查看 Java 程序概况
 
 ![查看 Java 程序概况 ](./pictures/jdk监控和故障处理工具总结/2查看Java程序概况.png)
 
-#### 内存监控
+#### 1.2.1.3. 内存监控
 
 JConsole 可以显示当前内存的详细信息。不仅包括堆内存/非堆内存的整体信息，还可以细化到 eden 区、survivor 区等的使用情况，如下图所示。
 
@@ -294,7 +294,7 @@ JConsole 可以显示当前内存的详细信息。不仅包括堆内存/非堆�
 
 ![内存监控 ](./pictures/jdk监控和故障处理工具总结/3内存监控.png)
 
-#### 线程监控
+#### 1.2.1.4. 线程监控
 
 类似我们前面讲的 `jstack` 命令，不过这个是可视化的。
 
@@ -302,7 +302,7 @@ JConsole 可以显示当前内存的详细信息。不仅包括堆内存/非堆�
 
 ![线程监控 ](./pictures/jdk监控和故障处理工具总结/4线程监控.png)
 
-### Visual VM:多合一故障处理工具
+### 1.2.2. Visual VM:多合一故障处理工具
 
 VisualVM 提供在 Java 虚拟机 (Java Virutal Machine, JVM) 上运行的 Java 应用程序的详细信息。在 VisualVM 的图形用户界面中，您可以方便、快捷地查看多个 Java 应用程序的相关信息。Visual VM 官网：<https://visualvm.github.io/> 。Visual VM 中文文档:<https://visualvm.github.io/documentation.html>。
 

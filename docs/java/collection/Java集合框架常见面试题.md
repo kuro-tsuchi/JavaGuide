@@ -348,7 +348,8 @@ Output：
 
 ### 1.4.2. HashMap 和 HashSet 区别
 
-如果你看过 `HashSet` 源码的话就应该知道：`HashSet` 底层就是基于 `HashMap` 实现的。（`HashSet` 的源码非常非常少，因为除了 `clone()`、`writeObject()`、`readObject()`是 `HashSet` 自己不得不实现之外，其他方法都是直接调用 `HashMap` 中的方法。
+`HashSet` 底层就是基于 `HashMap` 实现的。
+`HashSet` 的源码非常非常少，因为除了 `clone()`、`writeObject()`、`readObject()`是 `HashSet` 自己不得不实现之外，其他方法都是直接调用 `HashMap` 中的方法。
 
 | `HashMap`                              | `HashSet`                                                                                                                 |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
@@ -426,8 +427,6 @@ TreeMap<Person, String> treeMap = new TreeMap<>((person1, person2) -> {
 **综上，相比于`HashMap`来说 `TreeMap` 主要多了对集合中的元素根据键排序的能力以及对集合内元素的搜索的能力。**
 
 ### 1.4.4. HashSet 如何检查重复
-
-以下内容摘自我的 Java 启蒙书《Head fist java》第二版：
 
 当你把对象加入`HashSet`时，`HashSet` 会先计算对象的`hashcode`值来判断对象加入的位置，同时也会与其他加入的对象的 `hashcode` 值作比较，如果没有相符的 `hashcode`，`HashSet` 会假设对象没有重复出现。但是如果发现有相同 `hashcode` 值的对象，这时会调用`equals()`方法来检查 `hashcode` 相等的对象是否真的相同。如果两者相同，`HashSet` 就不会让加入操作成功。
 
@@ -612,8 +611,3 @@ synchronizedMap(Map<K,V> m) //返回由指定映射支持的同步（线程安�
 synchronizedSet(Set<T> s) //返回指定 set 支持的同步（线程安全的）set。
 ```
 
-
-
-**《Java面试突击》:** Java 程序员面试必备的《Java面试突击》V3.0 PDF 版本扫码关注下面的公众号，在后台回复 **"面试突击"** 即可免费领取！
-
-![我的公众号](https://my-blog-to-use.oss-cn-beijing.aliyuncs.com/2019-11/format,png.jpeg)
